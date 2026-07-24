@@ -1,18 +1,14 @@
 <?php
-
 require_once('../includes/seguridad.php');
 require_once('../config/conexion.php');
 
-// Leer filtros desde la URL (GET)
 $busqueda = trim($_GET['busqueda'] ?? '');
 $generoFiltro = trim($_GET['genero'] ?? '');
 
-// Paginación
 $librosPorPagina = 20;
 $paginaActual = max(1, (int) ($_GET['pagina'] ?? 1));
 $offset = ($paginaActual - 1) * $librosPorPagina;
 
-// Armar condiciones dinámicamente según los filtros
 $condiciones = [];
 $parametros = [];
 $tipos = '';
@@ -26,14 +22,13 @@ if ($busqueda !== '') {
 }
 
 if ($generoFiltro !== '') {
-    $condiciones[] = "genero = ?";
+    $condiciones[] = "FIND_IN_SET(?, genero) > 0";
     $parametros[] = $generoFiltro;
     $tipos .= 's';
 }
 
 $whereSql = !empty($condiciones) ? " WHERE " . implode(" AND ", $condiciones) : "";
 
-// 1) Contar el total de resultados (para saber cuántas páginas hay)
 $sqlConteo = "SELECT COUNT(*) as total FROM libros" . $whereSql;
 $stmtConteo = $conn->prepare($sqlConteo);
 
@@ -45,7 +40,6 @@ $stmtConteo->execute();
 $totalLibros = $stmtConteo->get_result()->fetch_assoc()['total'];
 $totalPaginas = max(1, ceil($totalLibros / $librosPorPagina));
 
-// 2) Traer solo los libros de la página actual
 $sql = "SELECT * FROM libros" . $whereSql . " ORDER BY id ASC LIMIT ? OFFSET ?";
 $stmt = $conn->prepare($sql);
 
@@ -56,10 +50,22 @@ $stmt->bind_param($tiposConLimite, ...$parametrosConLimite);
 $stmt->execute();
 $resultado = $stmt->get_result();
 
-// Traer la lista de géneros existentes para el select
-$generos = $conn->query("SELECT DISTINCT genero FROM libros WHERE genero IS NOT NULL AND genero != '' ORDER BY genero ASC");
+// Armar la lista de géneros ÚNICOS a partir de los valores separados por coma
+$todosLosGeneros = $conn->query("SELECT genero FROM libros WHERE genero IS NOT NULL AND genero != ''");
+$generosUnicos = [];
 
-// Función para armar la URL de cada página, conservando los filtros activos
+while ($fila = $todosLosGeneros->fetch_assoc()) {
+    $partes = explode(',', $fila['genero']);
+    foreach ($partes as $parte) {
+        $parte = trim($parte);
+        if ($parte !== '' && !in_array($parte, $generosUnicos)) {
+            $generosUnicos[] = $parte;
+        }
+    }
+}
+
+sort($generosUnicos);
+
 function urlPagina($num, $busqueda, $genero) {
     $params = ['pagina' => $num];
     if ($busqueda !== '') $params['busqueda'] = $busqueda;
@@ -128,12 +134,11 @@ function urlPagina($num, $busqueda, $genero) {
                 <label class="form-label">Género</label>
                 <select name="genero" class="form-select">
                     <option value="">Todos</option>
-                    <?php while ($fila = $generos->fetch_assoc()): ?>
-                        <option value="<?= htmlspecialchars($fila['genero']) ?>"
-                            <?= $generoFiltro === $fila['genero'] ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($fila['genero']) ?>
+                    <?php foreach ($generosUnicos as $g): ?>
+                        <option value="<?= htmlspecialchars($g) ?>" <?= $generoFiltro === $g ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($g) ?>
                         </option>
-                    <?php endwhile; ?>
+                    <?php endforeach; ?>
                 </select>
             </div>
 
@@ -191,7 +196,7 @@ function urlPagina($num, $busqueda, $genero) {
                                         <b>Año:</b> <?= $libro["anio"] ?><br>
                                         <b>Páginas:</b> <?= $libro["paginas"] ?><br>
                                         <?php if (!empty($libro["genero"])): ?>
-                                            <b>Género:</b> <?= htmlspecialchars($libro["genero"]) ?>
+                                            <b>Género:</b> <?= htmlspecialchars(str_replace(',', ', ', $libro["genero"])) ?>
                                         <?php endif; ?>
                                     </p>
 
@@ -230,27 +235,48 @@ function urlPagina($num, $busqueda, $genero) {
            <?php if ($totalPaginas > 1): ?>
 
     <div class="paginador mt-4">
-        <ul class="pagination justify-content-center">
+        <ul class="pagination justify-content-center flex-wrap">
+
+            <li class="page-item <?= $paginaActual <= 1 ? 'disabled' : '' ?>">
+                <a class="page-link" href="<?= urlPagina(1, $busqueda, $generoFiltro) ?>">« Primera</a>
+            </li>
 
             <li class="page-item <?= $paginaActual <= 1 ? 'disabled' : '' ?>">
                 <a class="page-link" href="<?= urlPagina($paginaActual - 1, $busqueda, $generoFiltro) ?>">Anterior</a>
             </li>
 
-            <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
+            <?php
+            $rango = 4; // cuántas páginas mostrar a cada lado de la actual
+            $inicio = max(1, $paginaActual - $rango);
+            $fin = min($totalPaginas, $paginaActual + $rango);
+            ?>
+
+            <?php if ($inicio > 1): ?>
+                <li class="page-item disabled"><span class="page-link">…</span></li>
+            <?php endif; ?>
+
+            <?php for ($i = $inicio; $i <= $fin; $i++): ?>
                 <li class="page-item <?= $i === $paginaActual ? 'active' : '' ?>">
                     <a class="page-link" href="<?= urlPagina($i, $busqueda, $generoFiltro) ?>"><?= $i ?></a>
                 </li>
             <?php endfor; ?>
 
+            <?php if ($fin < $totalPaginas): ?>
+                <li class="page-item disabled"><span class="page-link">…</span></li>
+            <?php endif; ?>
+
             <li class="page-item <?= $paginaActual >= $totalPaginas ? 'disabled' : '' ?>">
                 <a class="page-link" href="<?= urlPagina($paginaActual + 1, $busqueda, $generoFiltro) ?>">Siguiente</a>
+            </li>
+
+            <li class="page-item <?= $paginaActual >= $totalPaginas ? 'disabled' : '' ?>">
+                <a class="page-link" href="<?= urlPagina($totalPaginas, $busqueda, $generoFiltro) ?>">Última »</a>
             </li>
 
         </ul>
     </div>
 
 <?php endif; ?>
-
         </div>
 
     </div>

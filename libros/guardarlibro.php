@@ -2,16 +2,24 @@
 require_once('../includes/seguridad.php');
 require_once('../config/conexion.php');
 
-$titulo   = $_POST['titulo'];
-$autor    = $_POST['autor'];
-$anio     = $_POST['anio'];
-$paginas  = $_POST['paginas'];
-$genero   = trim($_POST['genero'] ?? '');
-$urlPortada = trim($_POST['portada_url'] ?? '');
-$portada  = null;
-
-$carpetaDestino = '../uploads/portadas/';
+$titulo                = $_POST['titulo'];
+$autor                 = $_POST['autor'];
+$anio                  = $_POST['anio'];
+$paginas               = $_POST['paginas'];
+$genero                = trim($_POST['genero'] ?? '');
+$urlPortada            = trim($_POST['portada_url'] ?? '');
+$portada               = null;
+$carpetaDestino        = '../uploads/portadas/';
 $extensionesPermitidas = ['jpg', 'jpeg', 'png', 'webp'];
+
+// Normalizar: separar por coma, limpiar espacios, volver a unir sin espacios
+if ($genero !== '') {
+    $partesGenero = array_map('trim', explode(',', $genero));
+    $partesGenero = array_filter($partesGenero, fn($g) => $g !== '');
+    $genero = implode(',', $partesGenero);
+}
+
+
 
 // 1) Prioridad: archivo subido manualmente
 if (isset($_FILES['portada']) && $_FILES['portada']['error'] === UPLOAD_ERR_OK) {

@@ -32,6 +32,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $extensionesPermitidas = ['jpg', 'jpeg', 'png', 'webp'];
     $nuevaPortadaGuardada = false;
 
+
+    $genero = trim($_POST["genero"] ?? '');
+
+    if ($genero !== '') {
+        $partesGenero = array_map('trim', explode(',', $genero));
+        $partesGenero = array_filter($partesGenero, fn($g) => $g !== '');
+        $genero = implode(',', $partesGenero);
+    }
+
     // 1) Prioridad: si subieron un archivo, usar ese
     if (isset($_FILES['portada']) && $_FILES['portada']['error'] === UPLOAD_ERR_OK) {
 
@@ -190,11 +199,9 @@ if (!$libro) {
             <input
                 type="text"
                 name="genero"
-                id="genero"
                 class="form-control mb-3"
                 value="<?= htmlspecialchars($libro["genero"] ?? '') ?>"
-                placeholder="Ej: Novela, Poesía, Ensayo">
-
+                placeholder="Ej: Manga, Thriller (separados por coma)">
             <label>Portada actual</label><br>
 
             <div id="previewPortada" class="mb-2">
