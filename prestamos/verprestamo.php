@@ -16,7 +16,7 @@ if ($estadoFiltro === 'prestado' || $estadoFiltro === 'devuelto') {
 
 $whereSql = !empty($condiciones) ? " WHERE " . implode(" AND ", $condiciones) : "";
 
-$sql = "SELECT p.*, l.titulo, l.autor, s.nombre, s.apellido
+$sql = "SELECT p.*, l.titulo, l.autor, l.portada, s.nombre, s.apellido
         FROM prestamos p
         INNER JOIN libros l ON p.libro_id = l.id
         INNER JOIN socios s ON p.socio_id = s.id"
@@ -53,16 +53,17 @@ function estaVencido($fechaEsperada, $estado) {
 
 <nav>
 
-    <div class="font">
-      BIBLIOTECA<span>.</span>
-    </div>
-
-      <ul>
-        <li><a href="/carpeta/Index.php"><b>Inicio</b></a></li>
-        <li><a href="/carpeta/libros/verlibro.php"><b>Libros</b></a></li>
-        <li><a href="/carpeta/socios/versocio.php"><b>Socios</b></a></li>
-        <li><a href="/carpeta/prestamos/verprestamo.php"><b>Prestamos</b></a></li>
-        <li><a href="/carpeta/logout.php"><b>Cerrar sesión</b></a></li>
+<a href="../Index.php"> 
+ <img src="../img/logo.png" 
+ alt="Inicio" style="width: 250px; height: auto;">
+</a>
+    
+    <ul>
+        <li><a href="../Index.php"><b>Inicio</b></a></li>
+        <li><a href="../libros/verlibro.php"><b>Libros</b></a></li>
+        <li><a href="../socios/versocio.php"><b>Socios</b></a></li>
+        <li><a href="../prestamos/verprestamo.php"><b>Prestamos</b></a></li>
+        <li><a href="../logout.php"><b>Cerrar sesión</b></a></li>
     </ul>
 
 </nav>
@@ -110,9 +111,15 @@ function estaVencido($fechaEsperada, $estado) {
                             <div class="info-card">
 
                                 <div class="d-flex justify-content-between align-items-start mb-2">
-                                    <div class="info-card-icon">
-                                        <?= strtoupper(substr($p['nombre'], 0, 1)) ?>
-                                    </div>
+                                    <?php if (!empty($p['portada'])): ?>
+                                        <img src="/carpeta/uploads/portadas/<?= htmlspecialchars($p['portada']) ?>"
+                                            alt="Portada de <?= htmlspecialchars($p['titulo']) ?>"
+                                            class="portada-prestamo">
+                                    <?php else: ?>
+                                        <img src="/carpeta/assets/sin-portada.png"
+                                            alt="Sin portada"
+                                            class="portada-prestamo">
+                                    <?php endif; ?>
 
                                     <?php if ($p['estado'] === 'devuelto'): ?>
                                         <span class="badge bg-secondary">Devuelto</span>
@@ -139,18 +146,18 @@ function estaVencido($fechaEsperada, $estado) {
                                 <?php if ($p['estado'] === 'prestado'): ?>
                                     <div class="d-flex gap-2 mt-2">
                                         <a href="devolverprestamo.php?id=<?= $p['id'] ?>" class="btn btn-warning btn-sm"
-                                           onclick="return confirm('¿Marcar este préstamo como devuelto?')">
+                                        onclick="return confirm('¿Marcar este préstamo como devuelto?')">
                                             Marcar devuelto
                                         </a>
                                         <a href="eliminarprestamo.php?id=<?= $p['id'] ?>" class="btn btn-danger btn-sm"
-                                           onclick="return confirm('¿Eliminar este préstamo?')">
+                                        onclick="return confirm('¿Eliminar este préstamo?')">
                                             Eliminar
                                         </a>
                                     </div>
                                 <?php else: ?>
                                     <div class="mt-2">
                                         <a href="eliminarprestamo.php?id=<?= $p['id'] ?>" class="btn btn-danger btn-sm"
-                                           onclick="return confirm('¿Eliminar este préstamo del historial?')">
+                                        onclick="return confirm('¿Eliminar este préstamo del historial?')">
                                             Eliminar
                                         </a>
                                     </div>

@@ -102,11 +102,12 @@ nav a:hover {
 
 /* ---------- Cards ---------- */
 
-.card {
+.card { /*EL card del fondo*/
     border: none;
     border-radius: var(--radius-md);
     overflow: hidden;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
+    background-color: #3c3c3c;
 }
 
 .card:hover {
@@ -130,7 +131,7 @@ nav a:hover {
 /* ---------- Tarjeta individual de socio / préstamo ---------- */
 
 .info-card {
-    background-color: #ffffff;
+    background-color: white;
     color: #1a1a1a;
     border-radius: var(--radius-md);
     padding: 1.25rem 1.5rem;
@@ -245,4 +246,14 @@ nav a:hover {
 .form-card .btn-primary:hover {
     background-color: var(--color-accent-dark);
     border-color: var(--color-accent-dark);
+}
+
+.portada-prestamo {
+    width: 200px;
+    height: 85px;
+    object-fit: cover;
+    object-position: top;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    background-color: #eee;
 }
