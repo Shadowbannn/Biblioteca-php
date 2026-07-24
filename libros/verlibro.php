@@ -155,6 +155,7 @@ function urlPagina($num, $busqueda, $genero) {
         <?php endif; ?>
 
     </form>
+    
 
     <div class="card mb-4">
 
@@ -162,6 +163,51 @@ function urlPagina($num, $busqueda, $genero) {
             <h4 class="mb-0">Listado de Libros</h4>
             <small><?= $totalLibros ?> libro<?= $totalLibros != 1 ? 's' : '' ?> en total</small>
         </div>
+
+             <div class="paginador mt-4">
+        <ul class="pagination justify-content-center flex-wrap">
+
+            <li class="page-item <?= $paginaActual <= 1 ? 'disabled' : '' ?>">
+                <a class="page-link" href="<?= urlPagina(1, $busqueda, $generoFiltro) ?>">« Primera</a>
+            </li>
+
+            <li class="page-item <?= $paginaActual <= 1 ? 'disabled' : '' ?>">
+                <a class="page-link" href="<?= urlPagina($paginaActual - 1, $busqueda, $generoFiltro) ?>">Anterior</a>
+            </li>
+
+            <?php
+            $rango = 4; // cuántas páginas mostrar a cada lado de la actual
+            $inicio = max(1, $paginaActual - $rango);
+            $fin = min($totalPaginas, $paginaActual + $rango);
+            ?>
+
+            <?php if ($inicio > 1): ?>
+                <li class="page-item disabled"><span class="page-link">…</span></li>
+            <?php endif; ?>
+
+            <?php for ($i = $inicio; $i <= $fin; $i++): ?>
+                <li class="page-item <?= $i === $paginaActual ? 'active' : '' ?>">
+                    <a class="page-link" href="<?= urlPagina($i, $busqueda, $generoFiltro) ?>"><?= $i ?></a>
+                </li>
+            <?php endfor; ?>
+
+            <?php if ($fin < $totalPaginas): ?>
+                <li class="page-item disabled"><span class="page-link">…</span></li>
+            <?php endif; ?>
+
+            <li class="page-item <?= $paginaActual >= $totalPaginas ? 'disabled' : '' ?>">
+                <a class="page-link" href="<?= urlPagina($paginaActual + 1, $busqueda, $generoFiltro) ?>">Siguiente</a>
+            </li>
+
+            <li class="page-item <?= $paginaActual >= $totalPaginas ? 'disabled' : '' ?>">
+                <a class="page-link" href="<?= urlPagina($totalPaginas, $busqueda, $generoFiltro) ?>">Última »</a>
+                <br>
+            </li>
+            
+        </ul>
+    </div>
+
+
 
         <div class="card-body">
 
@@ -202,14 +248,14 @@ function urlPagina($num, $busqueda, $genero) {
 
                                     <div class="mt-auto d-flex gap-2">
 
-                                        <a href="editarlibro.php?id=<?= $libro["id"] ?>" class="btn btn-warning btn-sm">
+                                       <a href="editarlibro.php?id=<?= $libro["id"] ?>&pagina=<?= $paginaActual ?>&busqueda=<?= urlencode($busqueda) ?>&genero=<?= urlencode($generoFiltro) ?>" class="btn btn-warning btn-sm">
                                             Editar
                                         </a>
 
-                                        <a href="eliminarlibro.php?id=<?= $libro["id"] ?>"
-                                           class="btn btn-danger btn-sm"
-                                           onclick="return confirm('¿Deseas eliminar este libro?')">
-                                            Eliminar
+                                       <a href="eliminarlibro.php?id=<?= $libro["id"] ?>&pagina=<?= $paginaActual ?>&busqueda=<?= urlencode($busqueda) ?>&genero=<?= urlencode($generoFiltro) ?>"
+                                            class="btn btn-danger btn-sm"
+                                            onclick="return confirm('¿Deseas eliminar este libro?')">
+                                                Eliminar
                                         </a>
 
                                     </div>

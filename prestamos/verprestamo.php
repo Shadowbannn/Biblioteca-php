@@ -21,7 +21,7 @@ $sql = "SELECT p.*, l.titulo, l.autor, l.portada, s.nombre, s.apellido
         INNER JOIN libros l ON p.libro_id = l.id
         INNER JOIN socios s ON p.socio_id = s.id"
         . $whereSql .
-        " ORDER BY p.fecha_prestamo DESC";
+        " ORDER BY p.fecha_prestamo ASC";
 
 $stmt = $conn->prepare($sql);
 
@@ -73,21 +73,30 @@ function estaVencido($fechaEsperada, $estado) {
     <h1 class="titulo"><br><br><b>Préstamos</b></h1>
 
     <div class="mb-3">
-        <a href="agregarprestamo.php" class="btn btn-success">
-            ➕ Nuevo Préstamo
-        </a>
+       
     </div>
 
     <form method="GET" class="mb-4">
-        <div class="row g-2 align-items-end">
-            <div class="col-md-4">
-                <label class="form-label">Filtrar por estado</label>
-                <select name="estado" class="form-select" onchange="this.form.submit()">
-                    <option value="">Todos</option>
-                    <option value="prestado" <?= $estadoFiltro === 'prestado' ? 'selected' : '' ?>>En curso</option>
-                    <option value="devuelto" <?= $estadoFiltro === 'devuelto' ? 'selected' : '' ?>>Devueltos</option>
-                </select>
+      <div class="row g-2 align-items-end mb-4">
+             <div class="col-sm-8">
+                <form method="GET">
+                    <label class="form-label">Filtrar por estado</label>
+                    <select name="estado" class="form-select" onchange="this.form.submit()">
+                        <option value="">Todos</option>
+                        <option value="prestado" <?= $estadoFiltro === 'prestado' ? 'selected' : '' ?>>En curso</option>
+                        <option value="devuelto" <?= $estadoFiltro === 'devuelto' ? 'selected' : '' ?>>Devueltos</option>
+                    </select>
+                </form>
             </div>
+
+            <div class="col-md-3">
+                <a href="agregarprestamo.php" class="btn btn-success w-100">
+                    ➕ Nuevo Préstamo
+                </a>
+            </div>
+
+           
+
         </div>
     </form>
 
@@ -111,6 +120,7 @@ function estaVencido($fechaEsperada, $estado) {
                             <div class="info-card">
 
                                 <div class="d-flex justify-content-between align-items-start mb-2">
+                                  
                                     <?php if (!empty($p['portada'])): ?>
                                         <img src="/carpeta/uploads/portadas/<?= htmlspecialchars($p['portada']) ?>"
                                             alt="Portada de <?= htmlspecialchars($p['titulo']) ?>"
@@ -121,10 +131,13 @@ function estaVencido($fechaEsperada, $estado) {
                                             class="portada-prestamo">
                                     <?php endif; ?>
 
+
                                     <?php if ($p['estado'] === 'devuelto'): ?>
                                         <span class="badge bg-secondary">Devuelto</span>
+
                                     <?php elseif ($vencido): ?>
                                         <span class="badge badge-vencido">Vencido</span>
+
                                     <?php else: ?>
                                         <span class="badge badge-encurso">En curso</span>
                                     <?php endif; ?>
@@ -183,7 +196,7 @@ function estaVencido($fechaEsperada, $estado) {
 </div>
 
     <footer class="bg-dark text-white">
-        Biblioteca de los guri
+        © 2026 Sigma Tech -  All rights reserved
     </footer>
 
 </body>

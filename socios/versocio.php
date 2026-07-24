@@ -67,45 +67,38 @@ $totalSocios = $resultado->num_rows;
 
 <div class="container mt-5">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-
-        <h2>Listado de Socios</h2>
-
-        <a href="agregarsocio.php" class="btn btn-success">
-            + Nuevo Socio
-        </a>
-
-    </div>
+       <h1 class="titulo"><br><br><b>Socios</b></h1>
 
     <form method="GET" class="row mb-4">
+        <div class="row g-2 align-items-end">
+            <div class="col-md-6">
+                <input type="text" 
+                       name="buscar" 
+                       class="form-control"
+                       placeholder="Buscar por nombre o cédula"
+                       value="<?= htmlspecialchars($buscar) ?>">
+            </div>
 
-        <div class="col-md-10">
 
-            <input
-                type="text"
-                name="buscar"
-                class="form-control"
-                placeholder="Buscar por nombre, apellido o cédula..."
-                value="<?= htmlspecialchars($buscar) ?>">
+            <div class="col-sm">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+
+                    <a href="agregarsocio.php" class="btn btn-success">
+                        ➕ Agregar Socio
+
+                    </a>
+
+            </div>
 
         </div>
-
-        <div class="col-md-2 d-grid">
-
-            <button class="btn btn-primary">
-                Buscar
-            </button>
-
-        </div>
-
     </form>
 
-    <div class="alert alert-secondary">
+    <div class="card mb-4">
 
-        Total de socios registrados:
-        <strong><?= $totalSocios ?></strong>
-
-    </div>
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Listado de socios</h4>
+            <small><?= $totalSocios ?> socio<?= $totalSocios != 1 ? 's' : '' ?> en total</small>
+        </div>
 
     <div class="table-responsive">
 
@@ -205,16 +198,17 @@ $totalSocios = $resultado->num_rows;
 
     </div>
 
-    <a href="../index.php" class="btn btn-secondary mt-3">
-        ← Volver al inicio
-    </a>
+    
+</div>
+        <a href="../index.php" class="btn btn-secondary col-mt-3">
+             ← Volver al inicio
+        </a>
 
 </div>
-
     <footer class="bg-dark text-white text-center p-3 mt-5">
         © 2026 Sigma Tech -  All rights reserved
     </footer>
-
+</div>
 
 
 </body>

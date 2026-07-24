@@ -279,8 +279,9 @@ nav a:hover {
 .form-card .btn-outline-secondary {
     border-radius: 0 10px 10px 0;
     font-weight: 500;
-    color: var(--color-accent);
+    color: white;
     border-color: var(--color-accent);
+    background-color: #012a58;
 }
 
 .form-card .btn-outline-secondary:hover {
