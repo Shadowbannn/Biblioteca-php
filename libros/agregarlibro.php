@@ -1,6 +1,5 @@
 <?php
 require_once('../includes/seguridad.php');
-require_once('../socios/socio.php');
 require_once('../config/conexion.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -74,6 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div id="previewPortada" class="mb-3"></div>
 
             <button type="submit" class="btn btn-success w-100">Guardar</button>
+            <a href="verlibro.php" class="btn btn-secondary w-100">Cancelar</a>
 
         </form>
 

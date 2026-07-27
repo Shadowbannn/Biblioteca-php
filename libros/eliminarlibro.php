@@ -1,6 +1,5 @@
 <?php
 require_once('../includes/seguridad.php');
-require_once('../socios/socio.php');
 require_once('../config/conexion.php');
 
 if (!isset($_GET["id"])) {

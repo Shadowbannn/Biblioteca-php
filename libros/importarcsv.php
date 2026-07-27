@@ -77,8 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['archivo_csv'])) {
 
 <head>
     <meta charset="UTF-8">
-    <title>Importar CSV de Goodreads</title>
-
+    <title>Importar CSV</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -89,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['archivo_csv'])) {
 
     <div class="form-card">
 
-        <h2>Importar libros desde Goodreads</h2>
+        <h2>Importar libros</h2>
 
         <?php if (isset($error)): ?>
             <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
@@ -97,16 +96,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['archivo_csv'])) {
 
         <?php if (!$archivoJson): ?>
 
-            <form method="POST" enctype="multipart/form-data">
+            <form method="POST" 
+                  enctype="multipart/form-data">
 
-                <label>Archivo CSV exportado de Goodreads</label>
-                <input type="file" name="archivo_csv" class="form-control mb-3" accept=".csv" required>
+                <label>Archivo CSV</label>
+                <input type="file" 
+                       name="archivo_csv" 
+                       class="form-control mb-3" 
+                       accept=".csv" required>
+                </input>
 
-                <small style="color: white;" class="d-block mb-3">
-                    Se importarán solo los libros marcados como "read" o "currently-reading" en Goodreads.
-                </small>
-
-                <button type="submit" class="btn btn-primary w-100">Analizar CSV</button>
+                <button type="submit" 
+                        class="btn btn-primary w-100">
+                        Analizar CSV
+                </button>
 
             </form>
 
@@ -118,9 +121,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['archivo_csv'])) {
                 <div id="barraProgreso" class="progress-bar" role="progressbar" style="width: 0%">0%</div>
             </div>
 
-            <p id="estadoTexto" class="text-white">Preparando importación...</p>
+                <p  id="estadoTexto" 
+                    class="text-white">
+                    Preparando importación...
+                </p>
 
-            <a href="verlibro.php" class="btn btn-secondary w-100 d-none" id="btnVolver">Ver listado de libros</a>
+                    <a  href="verlibro.php" 
+                        class="btn btn-secondary w-100 d-none" 
+                        id="btnVolver">
+                        Ver listado de libros
+                    </a>
 
             <script>
                 const archivoJson = <?= json_encode($archivoJson) ?>;
@@ -170,8 +180,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['archivo_csv'])) {
         <?php endif; ?>
 
     </div>
+            <br>
+        <a href="../index.php" class="btn btn-primary mb-3">
+             ← Volver al inicio
+        </a>
 
+        <a href="../libros/verlibro.php" class="btn btn-dark mb-3">
+             ← Volver a libros
+        </a>
+
+    </div>
+       
 </div>
+
 
 </body>
 </html>
