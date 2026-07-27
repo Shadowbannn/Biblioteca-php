@@ -1,5 +1,0 @@
-uploads/portadas/*
-uploads/temp/*
-!uploads/portadas/.gitkeep
-!uploads/temp/.gitkeep
-config/conexion.php
