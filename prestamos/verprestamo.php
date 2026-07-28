@@ -61,7 +61,7 @@ function estaVencido($fechaEsperada, $estado) {
     <ul>
         <li><a href="../Index.php"><b>Inicio</b></a></li>
         <li><a href="../libros/verlibro.php"><b>Libros</b></a></li>
-        <li><a href="../socios/versocio.php"><b>Socios</b></a></li>
+        <li><a href="../socios/versocio.php"><b>Alumnos</b></a></li>
         <li><a href="../prestamos/verprestamo.php"><b>Prestamos</b></a></li>
         <li><a href="../logout.php"><b>Cerrar sesión</b></a></li>
     </ul>
@@ -132,14 +132,21 @@ function estaVencido($fechaEsperada, $estado) {
                                     <?php endif; ?>
 
 
-                                    <?php if ($p['estado'] === 'devuelto'): ?>
+                                   <?php if ($p['estado'] === 'devuelto'): ?>
                                         <span class="badge bg-secondary">Devuelto</span>
+
+                                    <?php elseif ($p['estado'] === 'cancelado'): ?>
+                                        <span class="badge bg-secondary">Reserva vencida</span>
+
+                                    <?php elseif ($p['estado'] === 'reservado'): ?>
+                                        <span class="badge badge-encurso">Reservado</span>
 
                                     <?php elseif ($vencido): ?>
                                         <span class="badge badge-vencido">Vencido</span>
 
                                     <?php else: ?>
                                         <span class="badge badge-encurso">En curso</span>
+
                                     <?php endif; ?>
                                 </div>
 
@@ -158,7 +165,7 @@ function estaVencido($fechaEsperada, $estado) {
 
                                 <?php if ($p['estado'] === 'prestado'): ?>
                                     <div class="d-flex gap-2 mt-2">
-                                        <a href="devolverprestamo.php?id=<?= $p['id'] ?>" class="btn btn-warning btn-sm"
+                                        <a href="devolverprestamo.php?id=<?= $p['id'] ?>" class="btn btn-success btn-sm"
                                         onclick="return confirm('¿Marcar este préstamo como devuelto?')">
                                             Marcar devuelto
                                         </a>

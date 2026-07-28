@@ -38,7 +38,7 @@ $totalSocios = $resultado->num_rows;
 
 <head>
     <meta charset="UTF-8">
-    <title>Biblioteca - Socios</title>
+    <title>Biblioteca - Alumnos</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -57,7 +57,7 @@ $totalSocios = $resultado->num_rows;
     <ul>
         <li><a href="../Index.php"><b>Inicio</b></a></li>
         <li><a href="../libros/verlibro.php"><b>Libros</b></a></li>
-        <li><a href="../socios/versocio.php"><b>Socios</b></a></li>
+        <li><a href="../socios/versocio.php"><b>Alumnos</b></a></li>
         <li><a href="../prestamos/verprestamo.php"><b>Prestamos</b></a></li>
         <li><a href="../logout.php"><b>Cerrar sesión</b></a></li>
     </ul>
@@ -67,7 +67,7 @@ $totalSocios = $resultado->num_rows;
 
 <div class="container mt-5">
 
-       <h1 class="titulo"><br><br><b>Socios</b></h1>
+       <h1 class="titulo">Alumnos</h1>
 
     <form method="GET" class="row mb-4">
         <div class="row g-2 align-items-end">
@@ -84,7 +84,7 @@ $totalSocios = $resultado->num_rows;
                 <button type="submit" class="btn btn-primary">Buscar</button>
 
                     <a href="agregarsocio.php" class="btn btn-success">
-                        ➕ Agregar Socio
+                        ➕ Agregar alumno
 
                     </a>
 
@@ -96,13 +96,13 @@ $totalSocios = $resultado->num_rows;
     <div class="card mb-4">
 
         <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-            <h4 class="mb-0">Listado de socios</h4>
-            <small><?= $totalSocios ?> socio<?= $totalSocios != 1 ? 's' : '' ?> en total</small>
+            <h4 class="mb-0">Listado de alumnos</h4>
+            <small><?= $totalSocios ?> alumno<?= $totalSocios != 1 ? 's' : '' ?> en total</small>
         </div>
 
     <div class="table-responsive">
 
-        <table class="table table-bordered table-hover table-striped align-middle">
+        <table class="table table-bordered table-dark">
 
             <thead class="table-dark">
 
@@ -111,10 +111,11 @@ $totalSocios = $resultado->num_rows;
                 <th>ID</th>
                 <th>Nombre</th>
                 <th>Apellido</th>
+                <th>Clase</th>
                 <th>Cédula</th>
                 <th>Email</th>
                 <th>Teléfono</th>
-                <th>Fecha Registro</th>
+                <th>Registrado</th>
                 <th width="180">Acciones</th>
 
             </tr>
@@ -135,6 +136,8 @@ $totalSocios = $resultado->num_rows;
 
                         <td><?= htmlspecialchars($fila['apellido']) ?></td>
 
+                        <td><?= htmlspecialchars($fila['clase']) ?></td>
+
                         <td><?= htmlspecialchars($fila['cedula']) ?></td>
 
                         <td><?= htmlspecialchars($fila['email']) ?></td>
@@ -144,16 +147,6 @@ $totalSocios = $resultado->num_rows;
                         <td><?= $fila['fecha_registro'] ?></td>
 
                         <td>
-
-
-                            <a
-                                href="agregarsocio.php?id=<?= $fila['id'] ?>"
-                                class="btn btn-success btn-sm">
-
-                                Agregar
-
-                            </a>
-
 
                             <a
                                 href="editarsocio.php?id=<?= $fila['id'] ?>"

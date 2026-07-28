@@ -13,6 +13,7 @@ $edad     = (int) $_POST['edad'];
 $email    = trim($_POST['email']);
 $telefono = trim($_POST['telefono']);
 $cedula   = trim($_POST['cedula']);
+$clase    = trim($_POST['clase']);
 
 // Verificar que no exista la misma cédula
 $consulta = $conn->prepare("SELECT id FROM socios WHERE cedula = ?");
@@ -31,7 +32,7 @@ if ($resultado->num_rows > 0) {
 // Insertar socio
 $stmt = $conn->prepare("
     INSERT INTO socios
-    (nombre, apellido, cedula, edad, email, telefono)
+    (nombre, apellido, clase, cedula, email, telefono)
     VALUES (?, ?, ?, ?, ?, ?)
 ");
 
@@ -39,10 +40,11 @@ $stmt->bind_param(
     "sssiss",
     $nombre,
     $apellido,
+    $clase,
     $cedula,
-    $edad,
     $email,
     $telefono
+    
 );
 
 if ($stmt->execute()) {

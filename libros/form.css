@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    --color-bg: #141414;
+    --color-accent:#012a58;
+    --color-accent-dark:skyblue;
+    --radius-lg: 16px;
+    --radius-md: 12px;
+   --radius-sm: 8px;
+
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--color-bg);
+    color: #ffffff;
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+    background-image: url('../img/fondo.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.titulo {
+    text-align: center;
+    margin-top: 1px;
+    margin-bottom: 30px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+ .centrado {
+    display: block;          /* Hace que el span se comporte como bloque */
+    text-align: center;      /* Centra el texto horizontalmente */
+    font-weight: bold;       /* Opcional: resalta la palabra */
+  }
+
+
+/* ---------- Formularios (Agregar / Editar / Importar) ---------- */
+
+.form-card {
+    background-color: #3c3c3c;
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    color: white;
+    text-align: left;
+    backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0.25);
+
+}
+
+.form-card h2 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.form-card label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: white;
+    margin-bottom: 0.4rem;
+    display: inline-block;
+}
+
+.form-card small {
+    color: #c9c9c9 !important;
+}
+
+.form-card .form-control,
+.form-card .form-select {
+    border-radius: 10px;
+    border: 1px solid #dcdcdc;
+    padding: 0.65rem 0.9rem;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-card .form-control:focus,
+.form-card .form-select:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.2);
+}
+
+.form-card .btn-success {
+    background-color: #22c55e;
+    border: none;
+    border-radius: 10px;
+    padding: 0.7rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+
+.form-card .btn-success:hover {
+    background-color: #16a34a;
+}
+
+.form-card .btn-primary {
+    border-radius: 10px;
+    padding: 0.7rem;
+    font-weight: 600;
+    color: white;
+}
+
+.form-card .btn-primary:hover {
+    background-color: var(--color-accent-dark);
+    border-color: var(--color-accent-dark);
+}
+
+.form-card .btn-secondary {
+    border-radius: 10px;
+    padding: 0.7rem;
+    font-weight: 600;
+}
+
+.form-card .btn-outline-secondary {
+    border-radius: 0 10px 10px 0;
+    font-weight: 500;
+    color: white;
+    border-color: var(--color-accent);
+    background-color: #012a58;
+}
+
+.form-card .btn-outline-secondary:hover {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #141414;
+}
+
+.form-card .input-group .form-control {
+    border-radius: 10px 0 0 10px;
+}
+
+.form-card small.text-muted {
+    font-size: 0.8rem;
+}
+
+.portada-preview {
+    width: 120px;
+    height: 170px;
+    object-fit: cover;
+    object-position: top;
+    border-radius: var(--radius-sm);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    background-color: #eee;
+}
+
+
+/* ---------- Barra de progreso (importación CSV) ---------- */
+
+.progress {
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.15);
+    overflow: hidden;
+}
+
+.progress-bar {
+    background-color: var(--color-accent);
+    color: #141414;
+    font-weight: 600;
+}

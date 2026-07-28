@@ -79,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['archivo_csv'])) {
     <meta charset="UTF-8">
     <title>Importar CSV</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="form.css">
 </head>
 
 <body>
@@ -88,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['archivo_csv'])) {
 
     <div class="form-card">
 
-        <h2>Importar libros</h2>
+        <h2><span class="centrado">Importar libros</span></h2>
 
         <?php if (isset($error)): ?>
             <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
@@ -110,6 +110,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['archivo_csv'])) {
                         class="btn btn-primary w-100">
                         Analizar CSV
                 </button>
+                    <br><br>
+                     <a href="../index.php" class="btn btn-success sm-3">
+                         ← Volver al inicio
+                    </a>
+
+                    <a href="../libros/verlibro.php" class="btn btn-secondary sm">
+                        ← Volver a libros
+                    </a>
+
 
             </form>
 
@@ -180,15 +189,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['archivo_csv'])) {
         <?php endif; ?>
 
     </div>
-            <br>
-        <a href="../index.php" class="btn btn-primary mb-3">
-             ← Volver al inicio
-        </a>
-
-        <a href="../libros/verlibro.php" class="btn btn-dark mb-3">
-             ← Volver a libros
-        </a>
-
+            
+ 
     </div>
        
 </div>

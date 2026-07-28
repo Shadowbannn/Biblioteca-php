@@ -1,23 +1,5 @@
 <?php
-
 require_once __DIR__ . "/includes/seguridad.php";
-require_once __DIR__ . "/libros/libro.php";
-require_once __DIR__ . "/socios/socio.php";
-require_once __DIR__ . "/prestamos/prestamo.php";
-
-
-$libro1 = new Libro("Jumanji", "La Roca", 1999, 167);
-$libro2 = new Libro("El Principito", "Antonio Exupery", 1943, 96);
-$libro3 = new Libro("Metamorfosis", "Franz Kafka", 1915, 120);
-
-$socio1 = new Socio("Julio", 67, "julio67@gmail.com");
-$socio2 = new Socio("Juan", 69, "juan69@gmail.com");
-$socio3 = new Socio("Jaime", 42, "jaime42@gmail.com");
-
-$prestamo1 = new Prestamo($socio1,$libro1,"27/03/2026","03/04/2026");
-$prestamo2 = new Prestamo($socio2,$libro2,"05/03/2026","16/03/2026");
-$prestamo3 = new Prestamo($socio3,$libro3,"17/02/2026","25/02/2026");
-
 ?>
 
 <!DOCTYPE html>
@@ -45,7 +27,7 @@ $prestamo3 = new Prestamo($socio3,$libro3,"17/02/2026","25/02/2026");
     <ul>
         <li><a href="Index.php"><b>Inicio</b></a></li>
         <li><a href="libros/verlibro.php"><b>Libros</b></a></li>
-        <li><a href="socios/versocio.php"><b>Socios</b></a></li>
+        <li><a href="socios/versocio.php"><b>Alumnos</b></a></li>
         <li><a href="prestamos/verprestamo.php"><b>Prestamos</b></a></li>
         <li><a href="logout.php"><b>Cerrar sesión</b></a></li>
     </ul>
@@ -77,9 +59,9 @@ $prestamo3 = new Prestamo($socio3,$libro3,"17/02/2026","25/02/2026");
                 <img class="card-img-top" src="https://imagenes.excelsior.com.mx/files/og_thumbnail/uploads/2025/03/11/691ffb95e51ea.jpeg" alt="Socios"></a>
                 
                 <div class="card-body">
-                    <h5 class="card-title">Socios</h5>
+                    <h5 class="card-title">Alumnos</h5>
                     <p class="card-text">Sociedad de lectores</p>
-                    <a href="socios/versocio.php" class="btn btn-primary">Ver Socios</a>
+                    <a href="socios/versocio.php" class="btn btn-primary">Ver Alumnos</a>
                 </div>
             </div>
         </div>

@@ -16,7 +16,7 @@ $extensionesPermitidas = ['jpg', 'jpeg', 'png', 'webp'];
 if ($genero !== '') {
     $partesGenero = array_map('trim', explode(',', $genero));
     $partesGenero = array_filter($partesGenero, fn($g) => $g !== '');
-    $genero = implode(',', $partesGenero);
+    $genero       = implode(',', $partesGenero);
 }
 
 

@@ -4,9 +4,9 @@ require_once('../config/conexion.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $titulo = $_POST["titulo"];
-    $autor = $_POST["autor"];
-    $anio = $_POST["anio"];
+    $titulo =  $_POST["titulo"];
+    $autor =   $_POST["autor"];
+    $anio =    $_POST["anio"];
     $paginas = $_POST["paginas"];
 
     $sql = "INSERT INTO libros (titulo, autor, anio, paginas)
@@ -19,6 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error = "Error al agregar el libro.";
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Agregar Libro</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="form.css">
 </head>
 
 <body>
@@ -38,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div class="form-card">
 
-        <h2>Agregar Libro</h2>
+        <h2><span class="centrado">Agregar Libro</span></h2>
 
         <?php
         if(isset($error)){
@@ -47,39 +48,56 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ?>
 
         <div class="mb-3">
-            <label>Buscar por ISBN o título</label>
             <div class="input-group">
-                <input type="text" id="buscarLibro" class="form-control" placeholder="Ej: 978-8420633994 o El Principito">
-                <button type="button" id="btnBuscar" class="btn btn-outline-secondary">Buscar</button>
+                <input type="text" 
+                       id="buscarLibro" 
+                       class="form-control" 
+                       placeholder="Buscar por ISBN o título">
+                       
+                <button type="button" 
+                        id="btnBuscar" 
+                        class="btn btn-outline-secondary">Buscar
+                </button>
             </div>
-            <small style="color: white;">Esto autocompleta los datos, después podés editarlos si querés.</small>
-
-        </div>
+            <small style="color: white;">
+                Esto autocompleta los datos, después podés editarlos si querés.
+            </small>
+         </div>
         
         <form action="guardarlibro.php" method="POST" enctype="multipart/form-data">
 
-            <input type="text" name="titulo" id="titulo" class="form-control mb-3" placeholder="Título" required>
-            <input type="text" name="autor" id="autor" class="form-control mb-3" placeholder="Autor" required>
-            <input type="number" name="anio" id="anio" class="form-control mb-3" placeholder="Año">
-            <input type="number" name="paginas" id="paginas" class="form-control mb-3" placeholder="Páginas">
-            <input type="text" name="genero" id="genero" class="form-control mb-3" placeholder="Género (ej: Novela, Poesía, Ensayo)">
+            <input type="text"   name="titulo"      id="titulo"  class="form-control mb-3" placeholder="Título" required>
+            <input type="text"   name="autor"       id="autor"   class="form-control mb-3" placeholder="Autor" required>
+            <input type="number" name="anio"        id="anio"    class="form-control mb-3" placeholder="Año">
+            <input type="number" name="paginas"     id="paginas" class="form-control mb-3" placeholder="Páginas">
+            <input type="text"   name="genero"      id="genero"  class="form-control mb-3" placeholder="Género (ej: Novela,Poesía,Ensayo)">
             <input type="hidden" name="portada_url" id="portada_url">
 
+
             <div class="mb-3">
-                <label>Portada (opcional, si ya se autocompletó no hace falta)</label>
-                <input type="file" name="portada" class="form-control">
+                <label>
+                    Portada (opcional, si ya se autocompletó no hace falta)
+                </label>
+                
+                <input type="file" 
+                       name="portada" 
+                       class="form-control">
             </div>
 
             <div id="previewPortada" class="mb-3"></div>
+ 
+                <button class="btn btn-success w-100 mb-2">
+                    Guardar Cambios
+                </button>
 
-            <button type="submit" class="btn btn-success w-100">Guardar</button>
-            <a href="verlibro.php" class="btn btn-secondary w-100">Cancelar</a>
+                    <a href="verlibro.php" class="btn btn-danger w-100">
+                        Cancelar
+                    </a>
 
+            </div>
         </form>
-
-    </div>
-
 </div>
+<br>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {

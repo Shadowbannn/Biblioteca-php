@@ -6,7 +6,8 @@
     --color-accent-dark:skyblue;
     --radius-lg: 16px;
     --radius-md: 12px;
-    --radius-sm: 8px;
+   --radius-sm: 8px;
+
 }
 
 * {
@@ -17,13 +18,13 @@ body {
     background-color: var(--color-bg);
     color: #ffffff;
     font-family: 'Inter', Arial, Helvetica, sans-serif;
-    margin: 0;
-    line-height: 1.6;
-    background-image: url(https://media.admagazine.com/photos/6585f181bbe8ec0403994e1f/16:9/w_2560%2Cc_limit/the-library-b2-hotel-zurich.jpg);
+    background-image: url('fondo.png');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
+    backdrop-filter: blur(10px);
+    border: 100px
 }
 
 .titulo {
@@ -37,9 +38,8 @@ body {
 
 .container {
     color: white;
-    backdrop-filter: blur(2px);
-    background: rgba(0, 0, 0, 0.25);
-    border-radius: var(--radius-lg);
+    width: max-content;
+    height: max-content;
 }
 
 footer {
@@ -55,9 +55,9 @@ footer {
 /* ---------- Barra de navegación ---------- */
 
 nav {
-    position: fixed;
+    position: top;
     width: 100%;
-    top: 0;
+    top: 0px;
     left: 0;
     padding: 18px 5%;
     display: flex;
@@ -100,24 +100,20 @@ nav a:hover {
     color: var(--color-accent);
 }
 
-/* ---------- Cards ---------- */
+/* ---------- Cards (listado de libros) ---------- */
 
-.card { /*EL card del fondo*/
+.card {
     border: none;
     border-radius: var(--radius-md);
     overflow: hidden;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
-    background-color: #3c3c3c;
+    font-size: 0.95rem;
+    background-color: #1b1a19;
 }
 
 .card:hover {
     transform: translateY(-4px);
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
-}
-
-.card img {
-    height: 250px;
-    object-fit: cover;
 }
 
 .card-title {
@@ -128,55 +124,80 @@ nav a:hover {
     border-bottom: 2px solid var(--color-accent);
 }
 
-/* ---------- Tarjeta individual de socio / préstamo ---------- */
-
-.info-card {
-    background-color:#525254;
-    color: white;
-    border-radius: var(--radius-md);
-    padding: 1.25rem 1.5rem;
-    height: 100%;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+.portada-libro {
+    height: 350px;
+    width: 100%;
+    object-fit: cover;
+    object-position: top;
+    background-color: #eee;
 }
 
-.info-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.25);
+.card-text{
+    color: white
 }
 
-.info-card .info-card-icon {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background-color: rgba(201, 162, 39, 0.15);
-    color: var(--color-accent-dark);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 1.1rem;
-    margin-bottom: 0.75rem;
+.card-title{
+    color: White
 }
 
-.info-card h5 {
-    font-weight: 700;
-    margin-bottom: 0.5rem;
+/* ---------- Filtro de búsqueda ---------- */
+
+.filtro-libros .form-control,
+.filtro-libros .form-select {
+    border-radius: 10px;
+    border: 1px solid #dcdcdc;
 }
 
-.info-card hr {
-    margin: 0.75rem 0;
-    opacity: 0.15;
+.filtro-libros .form-control:focus,
+.filtro-libros .form-select:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.2);
 }
 
-.info-card .badge-vencido {
-    background-color: #dc3545;
-}
-
-.info-card .badge-encurso {
+.filtro-libros .btn-primary {
     background-color: var(--color-accent);
+    border-color: var(--color-accent);
     color: white;
+    font-weight: 600;
 }
+
+.filtro-libros .btn-primary:hover {
+    background-color: var(--color-accent-dark);
+    border-color: var(--color-accent-dark);
+}
+
+/* ---------- Numeros de abajo ---------- */
+
+.paginador .pagination {
+    gap: 4px;
+    margin: 0;
+}
+
+.paginador .page-link {
+    border: none;
+    background: transparent;
+    color: white;
+    border-radius: 6px;
+    padding: 0.4rem 0.75rem;
+    font-size: 17px;
+}
+
+.paginador .page-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: black;
+}
+
+.paginador .page-item.active .page-link {
+    background-color: skyblue;
+    color: var(--color-accent);
+    font-weight: 700;
+}
+
+.paginador .page-item.disabled .page-link {
+    color: #555;
+}
+
+/* ---------- Formularios (Agregar / Editar / Importar) ---------- */
 
 .form-card {
     background-color: #3c3c3c;
@@ -202,12 +223,17 @@ nav a:hover {
     display: inline-block;
 }
 
+.form-card small {
+    color: #c9c9c9 !important;
+}
+
 .form-card .form-control,
 .form-card .form-select {
     border-radius: 10px;
     border: 1px solid #dcdcdc;
     padding: 0.65rem 0.9rem;
     font-size: 0.95rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .form-card .form-control:focus,
@@ -222,16 +248,11 @@ nav a:hover {
     border-radius: 10px;
     padding: 0.7rem;
     font-weight: 600;
+    transition: background-color 0.2s ease;
 }
 
 .form-card .btn-success:hover {
     background-color: #16a34a;
-}
-
-.form-card .btn-secondary {
-    border-radius: 10px;
-    padding: 0.7rem;
-    font-weight: 600;
 }
 
 .form-card .btn-primary {
@@ -240,7 +261,7 @@ nav a:hover {
     border-radius: 10px;
     padding: 0.7rem;
     font-weight: 600;
-    color: #141414;
+    color: white;
 }
 
 .form-card .btn-primary:hover {
@@ -248,12 +269,55 @@ nav a:hover {
     border-color: var(--color-accent-dark);
 }
 
-.portada-prestamo {
-    width: 200px;
-    height: 85px;
+.form-card .btn-secondary {
+    border-radius: 10px;
+    padding: 0.7rem;
+    font-weight: 600;
+}
+
+.form-card .btn-outline-secondary {
+    border-radius: 0 10px 10px 0;
+    font-weight: 500;
+    color: white;
+    border-color: var(--color-accent);
+    background-color: #012a58;
+}
+
+.form-card .btn-outline-secondary:hover {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #141414;
+}
+
+.form-card .input-group .form-control {
+    border-radius: 10px 0 0 10px;
+}
+
+.form-card small.text-muted {
+    font-size: 0.8rem;
+}
+
+.portada-preview {
+    width: 120px;
+    height: 170px;
     object-fit: cover;
     object-position: top;
-    border-radius: 6px;
+    border-radius: var(--radius-sm);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
     background-color: #eee;
+}
+
+
+/* ---------- Barra de progreso (importación CSV) ---------- */
+
+.progress {
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.15);
+    overflow: hidden;
+}
+
+.progress-bar {
+    background-color: var(--color-accent);
+    color: #141414;
+    font-weight: 600;
 }

@@ -13,11 +13,12 @@ $id = $_GET["id"];
 // Si se envió el formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $nombre = trim($_POST["nombre"]);
+    $nombre   = trim($_POST["nombre"]);
     $apellido = trim($_POST["apellido"]);
-    $email = trim($_POST["email"] ?? '');
+    $clase    = trim($_POST["clase"] ?? '');
+    $email    = trim($_POST["email"] ?? '');
     $telefono = trim($_POST["telefono"] ?? '');
-    $cedula = trim($_POST["cedula"]);
+    $cedula   = trim($_POST["cedula"]);
 
     // Verificar que la cédula no pertenezca a OTRO socio (excluyendo el que estamos editando)
     $stmtCheck = $conn->prepare("SELECT id FROM socios WHERE cedula = ? AND id != ?");
@@ -29,8 +30,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error = "Ya existe otro socio con esa cédula.";
     } else {
 
-        $stmt = $conn->prepare("UPDATE socios SET nombre=?, apellido=?, email=?, telefono=?, cedula=? WHERE id=?");
-        $stmt->bind_param("sssssi", $nombre, $apellido, $email, $telefono, $cedula, $id);
+        $stmt = $conn->prepare("UPDATE socios SET nombre=?, apellido=?, clase=?, email=?, telefono=?, cedula=? WHERE id=?");
+        $stmt->bind_param("ssssssi", $nombre, $apellido, $clase, $email, $telefono, $cedula, $id);
 
         if ($stmt->execute()) {
             header("Location: versocio.php");
@@ -62,7 +63,7 @@ if (!$socio) {
     <title>Editar Socio</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="form.css">
 </head>
 
 <body>
@@ -94,6 +95,14 @@ if (!$socio) {
                 class="form-control mb-3"
                 value="<?= htmlspecialchars($socio["apellido"]) ?>"
                 required>
+
+            <label>Clase</label>
+            <input
+                type="text"
+                name="clase"
+                class="form-control mb-3"
+                value="<?= htmlspecialchars($socio["clase"] ?? '') ?>">
+            
 
             <label>Email</label>
             <input

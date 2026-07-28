@@ -1,6 +1,9 @@
 <?php
 require_once('../includes/seguridad.php');
 require_once('../config/conexion.php');
+require_once('../includes/reserva.php');
+
+liberarReservasVencidas($conn);
 
 $busqueda = trim($_GET['busqueda'] ?? '');
 $generoFiltro = trim($_GET['genero'] ?? '');
@@ -97,27 +100,15 @@ function urlPagina($num, $busqueda, $genero) {
     <ul>
         <li><a href="../Index.php"><b>Inicio</b></a></li>
         <li><a href="../libros/verlibro.php"><b>Libros</b></a></li>
-        <li><a href="../socios/versocio.php"><b>Alumnos</b></a></li>
-        <li><a href="../prestamos/verprestamo.php"><b>Prestamos</b></a></li>
-        <li><a href="../logout.php"><b>Cerrar sesión</b></a></li>
+        <li><a href="../login.php"><b>Ingresar</b></a></li>
+        <li><a href="registrarsocio_publico.php"><b>Registrarse</b></a></li>
     </ul>
 
 </nav>
 
 <div class="container">
 
-    <h1 class="titulo"><br><br><b>Libros</b></h1>
-
-    <div class="mt-auto d-flex gap-2">
-        <a href="agregarlibro.php" class="btn btn-success">
-            ➕ Agregar Libro
-
-        <a href="importarcsv.php" class="btn btn-success">
-            ➕ Importar CSV
-
-        </a>
-    </div>
-
+    <h1 class="titulo">Libros</b></h1>
 
     <form method="GET" class="filtro-libros mb-4">
 
@@ -253,14 +244,12 @@ function urlPagina($num, $busqueda, $genero) {
 
                                     <div class="mt-auto d-flex gap-2">
 
-                                       <a href="editarlibro.php?id=<?= $libro["id"] ?>&pagina=<?= $paginaActual ?>&busqueda=<?= urlencode($busqueda) ?>&genero=<?= urlencode($generoFiltro) ?>" class="btn btn-warning btn-sm">
-                                            Editar
+                                        <a href="../login.php?id=<?= $libro["id"] ?>&pagina=<?= $paginaActual ?>&busqueda=<?= urlencode($busqueda) ?>&genero=<?= urlencode($generoFiltro) ?>" class="btn btn-warning btn-sm">
+                                            Solicitar préstamo
                                         </a>
 
-                                       <a href="eliminarlibro.php?id=<?= $libro["id"] ?>&pagina=<?= $paginaActual ?>&busqueda=<?= urlencode($busqueda) ?>&genero=<?= urlencode($generoFiltro) ?>"
-                                            class="btn btn-danger btn-sm"
-                                            onclick="return confirm('¿Deseas eliminar este libro?')">
-                                                Eliminar
+                                        <a href="reservarlibro.php?id=<?= $libro["id"] ?>&pagina=<?= $paginaActual ?>&busqueda=<?= urlencode($busqueda) ?>&genero=<?= urlencode($generoFiltro) ?>" class="btn btn-info btn-sm">
+                                            Reservar
                                         </a>
 
                                     </div>
